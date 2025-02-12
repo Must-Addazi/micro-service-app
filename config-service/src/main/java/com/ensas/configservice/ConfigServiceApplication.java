@@ -1,4 +1,4 @@
-package net.youssfi.configservice;
+package com.ensas.configservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
