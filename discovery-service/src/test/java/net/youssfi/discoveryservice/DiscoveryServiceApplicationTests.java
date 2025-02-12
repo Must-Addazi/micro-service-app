@@ -1,4 +1,4 @@
-package com.ensas.discovery_service;
+package net.youssfi.discoveryservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

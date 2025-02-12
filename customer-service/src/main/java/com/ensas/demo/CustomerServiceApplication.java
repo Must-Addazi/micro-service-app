@@ -1,5 +1,6 @@
 package com.ensas.demo;
 
+
 import com.ensas.demo.config.CustomerConfigParams;
 import com.ensas.demo.entities.Customer;
 import com.ensas.demo.repositories.CustomerRepository;
@@ -8,6 +9,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+
 
 @SpringBootApplication
 @EnableConfigurationProperties(CustomerConfigParams.class)

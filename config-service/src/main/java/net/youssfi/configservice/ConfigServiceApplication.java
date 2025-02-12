@@ -1,4 +1,4 @@
-package com.ensas.config_service;
+package net.youssfi.configservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -8,8 +8,8 @@ import org.springframework.cloud.config.server.EnableConfigServer;
 @EnableConfigServer
 public class ConfigServiceApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(ConfigServiceApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(ConfigServiceApplication.class, args);
+    }
 
 }
