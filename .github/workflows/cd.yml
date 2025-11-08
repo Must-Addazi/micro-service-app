@@ -1,0 +1,39 @@
+name: Continuous Deployment - Microservices App
+
+on:
+  push:
+    branches:
+      - main        # 🔹 Déploiement automatique après un merge sur main
+  workflow_dispatch: # 🔹 Permet aussi de le déclencher manuellement depuis GitHub UI
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 🧱 Étape 1 : Récupérer le code source
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 🐳 Étape 2 : Installer Docker Buildx
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # 🔐 Étape 3 : Connexion à Docker Hub
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # 🏗️ Étape 4 : Build et Push des images Docker
+      - name: Build and Push Docker images
+        run: |
+          echo "🚀 Building and pushing Docker images..."
+          docker compose build
+          docker compose push
+
+      # 🧹 Étape 5 : Nettoyage (facultatif)
+      - name: Clean up
+        if: always()
+        run: docker system prune -f
