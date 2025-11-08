@@ -1,0 +1,79 @@
+name: Build & Test Microservices
+
+on:
+  pull_request:
+    branches:
+      - develop
+  push:
+    branches:
+      - develop
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 🧱 Étape 1 : Récupérer le code source
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 🧰 Étape 2 : Installer Java et Maven
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      # 🧩 Étape 3 : Build des microservices Spring Boot
+      - name: Build all Spring Boot microservices
+        run: |
+          for d in discovery-service config-service customer-service inventory-service billing-service gateway-service; do
+            echo "🔨 Building $d ..."
+            cd $d
+            mvn clean package -DskipTests
+            cd ..
+          done
+
+      # 🧱 Étape 4 : Build du front Angular
+      - name: Build Angular Front-End
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies and build Angular
+        run: |
+          cd angular-front-end
+          npm ci
+          npm run build
+          cd ..
+
+      # 🐳 Étape 5 : Préparer Docker
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # 🐳 Étape 6 : Build toutes les images Docker
+      - name: Build all Docker images
+        run: docker compose build --no-cache
+
+      # 🚀 Étape 7 : Démarrer les conteneurs
+      - name: Start containers
+        run: docker compose up -d
+
+      # ⏳ Étape 8 : Attendre que les services soient "healthy"
+      - name: Wait for services to be healthy
+        run: |
+          echo "⏳ Waiting for containers to become healthy..."
+          sleep 60
+          docker ps
+          unhealthy=$(docker ps --filter "health=unhealthy" --format "{{.Names}}")
+          if [ ! -z "$unhealthy" ]; then
+            echo "❌ Some containers are unhealthy: $unhealthy"
+            exit 1
+          else
+            echo "✅ All containers are healthy."
+          fi
+
+      # 🧹 Étape 9 : Nettoyer après les tests
+      - name: Clean up
+        if: always()
+        run: docker compose down
