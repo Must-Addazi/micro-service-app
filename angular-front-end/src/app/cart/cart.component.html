@@ -1,0 +1,55 @@
+<div class="shop-page">
+  <div class="page-header">
+    <div>
+      <p class="eyebrow">Checkout</p>
+      <h1>Shopping cart</h1>
+    </div>
+    <div class="cart-total">
+      <span>Total</span>
+      <strong>{{ cart.total | number:'1.2-2' }} MAD</strong>
+    </div>
+  </div>
+
+  <div *ngIf="!cart.items.length && !order" class="empty-state">
+    Your cart is empty.
+  </div>
+
+  <div *ngIf="cart.items.length" class="checkout-grid">
+    <section class="cart-lines">
+      <article *ngFor="let item of cart.items" class="cart-line">
+        <img [src]="item.product.imageUrl" [alt]="item.product.name">
+        <div>
+          <p class="category">{{ item.product.category }}</p>
+          <h2>{{ item.product.name }}</h2>
+          <p>{{ item.product.price | number:'1.2-2' }} MAD</p>
+        </div>
+        <input type="number" min="1" [max]="item.product.quantity" [(ngModel)]="item.quantity"
+               (ngModelChange)="cart.updateQuantity(item.product.id, $event)">
+        <strong>{{ item.lineTotal || item.product.price * item.quantity | number:'1.2-2' }} MAD</strong>
+        <button type="button" class="icon-button" (click)="cart.remove(item.product.id)" aria-label="Remove item">
+          <i class="bi bi-trash"></i>
+        </button>
+      </article>
+    </section>
+
+    <aside class="checkout-panel">
+      <label for="customerId">Customer ID</label>
+      <input id="customerId" class="form-control" type="number" min="1" [(ngModel)]="customerId">
+      <button class="btn btn-dark w-100" type="button" [disabled]="loading" (click)="checkout()">
+        <i class="bi bi-credit-card"></i>
+        {{ loading ? 'Processing...' : 'Validate order' }}
+      </button>
+      <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
+    </aside>
+  </div>
+
+  <section *ngIf="order" class="order-success">
+    <i class="bi bi-check-circle"></i>
+    <div>
+      <h2>Order created</h2>
+      <p>Bill #{{ order.id }} for customer #{{ order.customerId }} - Total:
+        <strong>{{ order.total | number:'1.2-2' }} MAD</strong>
+      </p>
+    </div>
+  </section>
+</div>

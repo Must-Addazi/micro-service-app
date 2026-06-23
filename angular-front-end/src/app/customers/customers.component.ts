@@ -15,7 +15,7 @@ export class CustomersComponent implements OnInit{
 
   }
   ngOnInit(): void {
-    this.http.get("http://localhost:8888/CUSTOMER-SERVICE/customers").subscribe({
+    this.http.get("http://localhost:8888/customer-service/customers").subscribe({
       next:(data:any)=>{
         this.customers = data._embedded?.customers || [];
         console.log(data)

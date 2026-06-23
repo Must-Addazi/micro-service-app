@@ -4,10 +4,13 @@ spring:
       globalcors:
         corsConfigurations:
           '[/**]':
-            allowedOrigins: "*"
+            allowedOrigins:
+              - "*"
             allowedHeaders: "*"
+            allowCredentials: true
             allowedMethods:
               - GET
               - POST
+              - PATCH
               - PUT
               - DELETE

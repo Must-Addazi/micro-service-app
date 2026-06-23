@@ -1,21 +1,33 @@
-<div class="p-3">
-    <div class="card">
-        <div class="card-body">
-            <table *ngIf="products" class="table">
-                <thead>
-                    <tr>
-                        <th>ID</th><th>Name</th><th>Price</th><th>Quantity</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let p of products">
-                      <td>{{p.id}}</td>
-                      <td>{{p.name}}</td>
-                      <td>{{p.price}}</td>
-                      <td>{{p.quantity}}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+<div class="shop-page">
+  <div class="page-header">
+    <div>
+      <p class="eyebrow">Catalogue</p>
+      <h1>Products ready to order</h1>
     </div>
+    <div class="filters">
+      <input class="form-control" type="search" placeholder="Search products" [(ngModel)]="search">
+      <select class="form-select" [(ngModel)]="selectedCategory">
+        <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="product-grid">
+    <article *ngFor="let p of filteredProducts" class="product-card">
+      <img [src]="p.imageUrl" [alt]="p.name">
+      <div class="product-body">
+        <p class="category">{{ p.category }}</p>
+        <h2>{{ p.name }}</h2>
+        <p class="description">{{ p.description }}</p>
+        <div class="product-meta">
+          <strong>{{ p.price | number:'1.2-2' }} MAD</strong>
+          <span [class.low-stock]="p.quantity < 10">{{ p.quantity }} in stock</span>
+        </div>
+        <button class="btn btn-dark w-100" type="button" [disabled]="p.quantity <= 0" (click)="addToCart(p)">
+          <i class="bi bi-cart-plus"></i>
+          Add to cart
+        </button>
+      </div>
+    </article>
+  </div>
 </div>

@@ -2,12 +2,14 @@ package com.example.demo;
 
 
 import com.example.demo.entities.Product;
+import com.example.demo.enums.Category;
 import com.example.demo.repositories.ProductRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @SpringBootApplication
@@ -21,25 +23,31 @@ public class InventoryServiceApplication {
        return  args -> {
 		   productRepository.save(
 				   Product.builder()
-				   .id(UUID.randomUUID().toString())
 				   .name("computer")
-				   .price(12323.0)
+				   .description("Business laptop for office and study")
+				   .category(Category.ELECTRONICS)
+				   .imageUrl("https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=800&q=80")
+				   .price(BigDecimal.valueOf(12323.0))
 				   .quantity(123)
 				   .build()
 		   );
 		   productRepository.save(
 				   Product.builder()
-						   .id(UUID.randomUUID().toString())
 						   .name("printer")
-						   .price(1323.0)
+						   .description("Wireless printer for home and small business")
+						   .category(Category.ELECTRONICS)
+						   .imageUrl("https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?auto=format&fit=crop&w=800&q=80")
+						   .price(BigDecimal.valueOf(1323.0))
 						   .quantity(13)
 						   .build()
 		   );
 		   productRepository.save(
 				   Product.builder()
-						   .id(UUID.randomUUID().toString())
 						   .name("SmartPhone")
-						   .price(1423.0)
+						   .description("Smartphone with fast performance and modern display")
+						   .category(Category.ELECTRONICS)
+						   .imageUrl("https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=800&q=80")
+						   .price(BigDecimal.valueOf(1423.0))
 						   .quantity(12)
 						   .build()
 		   );

@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
+import { CartService } from './cart.service';
 
 @Component({
   selector: 'app-root',
@@ -11,4 +12,7 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 })
 export class AppComponent {
   title = 'angular-font-end';
+
+  constructor(public cart: CartService) {
+  }
 }

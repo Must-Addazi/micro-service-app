@@ -11,11 +11,12 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 })
 export class BillsComponent implements OnInit {
   bills:any
+  selectedBill:any
   constructor(private http:HttpClient){
 
   }
   ngOnInit(): void {
-    this.http.get("http://localhost:8888/BILLING-SERVICE/bills").subscribe({
+    this.http.get("http://localhost:8888/billing-service/bills").subscribe({
       next:(data:any)=>{
         this.bills = data._embedded?.bills || [];
         console.log(data)
@@ -26,4 +27,14 @@ export class BillsComponent implements OnInit {
     })
   }
 
+  showBillDetails(id: number): void {
+    this.http.get(`http://localhost:8888/billing-service/bills/${id}`).subscribe({
+      next:(data:any)=>{
+        this.selectedBill = data;
+      },
+      error:(err)=>{
+        console.log(err)
+      }
+    })
+  }
 }

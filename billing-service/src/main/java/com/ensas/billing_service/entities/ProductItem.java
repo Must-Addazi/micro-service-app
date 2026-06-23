@@ -14,7 +14,7 @@ public class ProductItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String productId;
+    private Long productId;
     @ManyToOne
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Bill bill;
@@ -22,4 +22,8 @@ public class ProductItem {
     private double unitPrice;
     @Transient
     private Product product;
+
+    public double getLineTotal() {
+        return quantity * unitPrice;
+    }
 }
