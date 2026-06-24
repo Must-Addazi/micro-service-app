@@ -37,6 +37,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.time.Duration;
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.Base64;
 import java.util.Date;
 import java.util.List;
@@ -151,7 +152,7 @@ public class CartRestController {
 
         customerRestClient.getCustomerById(request.customerId());
         Bill bill = billRepository.save(Bill.builder()
-                .billingDate(new Date())
+                .billingDate(LocalDateTime.now())
                 .customerId(request.customerId())
                 .build());
 

@@ -15,6 +15,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -34,7 +35,7 @@ public class BillingServiceApplication {
          Collection<Customer> customers = customerRestClient.getAllCustomers().getContent();
 		 Collection<Product> products = productRestClient.getAllProducts().getContent();
 		 customers.forEach(customer -> {
-			 Bill bill = Bill.builder().billingDate(new Date()).customerId(customer.getId()).build();
+			 Bill bill = Bill.builder().billingDate(LocalDateTime.now()).customerId(customer.getId()).build();
 			 billRepository.save(bill);
 			 products.forEach(product -> {
 				 ProductItem productItem= ProductItem.builder()
